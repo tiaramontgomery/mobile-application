@@ -154,3 +154,12 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
              onChanged: (newValue) {
             setState(() {
             sliderValue = newValue;
+            });  
+             }   
+           )
+          ]
+        ),
+      ),
+    );
+  }
+}
