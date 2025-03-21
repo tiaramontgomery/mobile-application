@@ -32,8 +32,10 @@ class _QuizState extends State<Quiz> {
   //keep track of the score
   int score = 0;
 
-  var questions = ['this is question 1', 'this is question 2', 'this is question 3'];
-  var answers = [0,0,1];
+  Color backgroundColor = Colors.white;
+
+  var questions = ['You can’t hum while holding your nose.', 'The Atlantic Ocean is the largest ocean on Earth.', 'Your brain generates enough electricity to power a light bulb.'];
+  var answers = [1,0,1];
   //display correct/incorrect
   String result = "";
 
@@ -47,10 +49,13 @@ class _QuizState extends State<Quiz> {
       print('Correct');
       score++;
       result = 'Correct!';
+      backgroundColor = Colors.green;
     }else{
       print('Incorrect');
       result = 'Incorrect!';
+      backgroundColor = Colors.red;
     }
+
     //if answer is true or false, set the score and show the results of correct/incorrect
     //set the groupValue to activate the radio
   
@@ -63,6 +68,7 @@ class _QuizState extends State<Quiz> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
       backgroundColor: Colors.cyan,
       title: Text("Quiz App"),), 
@@ -74,18 +80,36 @@ class _QuizState extends State<Quiz> {
           Row(
             children: <Widget>[
             Radio(value:1, groupValue: groupValue, onChanged: (e)=>{checkAnswer(e!)}),
-            Text("True"),
+            Text("True",
+            ),
             Radio(value:0, groupValue: groupValue, onChanged: (e)=>{checkAnswer(e!)}),
             Text("False"),
           ],),
-          TextButton(onPressed: ()=>{setState(() {
-            currentQuestion++;
+          Padding(
+            padding: EdgeInsets.all(15.0),
+          child: TextButton(onPressed: ()=>{setState(() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+              } else {
+              currentQuestion = 0; 
+              score = 0; 
+              }
             groupValue = 2; //reset radio button
             result = ""; 
+            backgroundColor = Colors.white;
           })}, 
-          child: Text("Next")),
-          Text(result),
-          Text("Score: $score"),
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+          ),
+        
+          child: Text("Next")),),
+          Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Text(result,
+          style: TextStyle(backgroundColor: Colors.lightGreenAccent) ),),
+          Text("Score: $score",
+          style: TextStyle(fontSize: 40)),
         ],     
       ),),
     );
